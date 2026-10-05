@@ -1,0 +1,164 @@
+================================================================================
+                   DIANA'S PUBLICIS ACCOUNT DASHBOARD
+                           START HERE
+================================================================================
+
+WHAT YOU JUST GOT:
+✓ A local dashboard with your accounts, actions, pipeline, and IDP goals
+✓ One HTML file you can open and use (no setup needed)
+✓ Your data stays on YOUR computer (not in the cloud)
+
+================================================================================
+                         OPEN IT RIGHT NOW
+================================================================================
+
+1. Open Finder (Mac) or File Explorer (Windows)
+
+2. Navigate to:
+   Desktop → Ogury Sales assistant → Reference Files → outputs
+
+3. Find the file named:
+   diana-dashboard.html
+
+4. Double-click it
+
+5. It opens in your web browser. Done!
+
+(The first time might take 2-3 seconds to load.)
+
+================================================================================
+                       WHAT YOU SEE
+================================================================================
+
+Top (Blue Bar):
+  • Your dashboard title
+  • Last updated time
+  • Three buttons: Reload Data | Export | Clear Local
+
+Colored Boxes Below:
+  • 3 Active Actions
+  • 5 Publicis Accounts
+  • 4 Open Opportunities
+  • 1 Upcoming Meeting
+
+Seven Tabs at the Bottom:
+  • Dashboard (summary view)
+  • Action Queue (your to-do list)
+  • Accounts (your Publicis roster)
+  • Pipeline (open deals)
+  • Relationships (key contacts)
+  • Meetings (upcoming client meetings)
+  • IDP & Goals (your promotion tracking)
+
+================================================================================
+                    HOW TO USE IT (5 MINUTES)
+================================================================================
+
+ACTION QUEUE:
+  1. Click the "Action Queue" tab
+  2. See your 3 current actions (what needs to happen)
+  3. Click in "Local Notes" to add your own notes (they save automatically)
+  4. Click ✓ Done when you finish something
+  5. Click ⏸️ Defer to push it to later
+  6. Click ✕ Dismiss to remove it from view
+
+ACCOUNTS:
+  1. Click the "Accounts" tab
+  2. See all your Publicis accounts in a table
+  3. Type in "Search accounts..." to find one quickly
+  4. Use the "All Priorities" filter to show only Tier 1, Tier 2, etc.
+
+PIPELINE:
+  1. Click "Pipeline" tab
+  2. See all your open deals with amounts, stages, and close dates
+  3. Search for a deal name or filter by stage (Proposal / Negotiation / Live)
+
+MEETINGS:
+  1. Click "Meetings" tab
+  2. See your upcoming client meetings with times, attendees, and agendas
+
+IDP & GOALS:
+  1. Click "IDP & Goals" tab
+  2. See your promotion progress (70% to Sales Director)
+  3. See your three 90-day priorities and current evidence
+
+================================================================================
+                    SAVE IT TO YOUR BOOKMARKS
+================================================================================
+
+So you can find it in one click next time:
+
+Mac:    Press Cmd + D
+Windows: Press Ctrl + D
+
+Name it something like "My Dashboard" and save it.
+
+(Now you can click it from your bookmarks bar anytime.)
+
+================================================================================
+                     YOUR DATA IS LOCAL
+================================================================================
+
+This means:
+  ✓ Everything lives on your computer (not in a cloud)
+  ✓ Your notes and task status only you see
+  ✓ Nothing leaves your computer unless you export it
+
+If you close the browser and reopen it later:
+  ✓ All your notes are still there
+  ✓ All your Done/Defer/Dismiss changes are still there
+  ✓ Everything is exactly as you left it
+
+================================================================================
+                  WHEN DATA GETS OUTDATED
+================================================================================
+
+The dashboard shows data from October 5, 2026.
+
+If things change (new emails, Salesforce updates, new meetings):
+
+Option 1: Quick Reload
+  • Click the 🔄 "Reload Data" button
+  • (Reloads the same Oct 5 snapshot)
+
+Option 2: Full Refresh (Best)
+  • Open Claude Code (this session)
+  • Type: /refresh-dashboard
+  • This pulls live data from Gmail, Calendar, and Salesforce
+  • Your dashboard updates with fresh info
+
+Option 3: Ask Claude to Update
+  • Tell Claude: "Add [action/account/meeting] to my dashboard"
+  • It gets added immediately
+
+================================================================================
+                         QUICK TIPS
+================================================================================
+
+→ Bookmark the dashboard so you can open it in one click
+→ Add local notes to your actions (they save automatically)
+→ Export your data weekly (click ⬇️ Export) to create a backup
+→ When pipeline or emails change, run /refresh-dashboard
+→ Close the browser and reopen—your notes are always there
+
+================================================================================
+                      NEED HELP?
+================================================================================
+
+Read the full guide:
+  DASHBOARD-HOW-TO.md (detailed walk-through of all features)
+
+Read what's loaded:
+  DASHBOARD-DATA-SOURCES.md (technical details, what's coming, test results)
+
+Need something changed:
+  Open Claude Code and say what you'd like to change
+
+================================================================================
+
+You're all set! Open diana-dashboard.html and start using it.
+
+Created: 2026-10-05
+For: Diana Fox, Senior Account Executive
+
+================================================================================

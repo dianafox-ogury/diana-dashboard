@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diana's Publicis Account Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #ecf0f1;
+            transform: translateY(-1px);
+        }
+
+        button.danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        button.danger:hover {
+            background: #c0392b;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 2px solid transparent;
+            border-bottom: 3px solid #ddd;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 0;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #3498db;
+            color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card.action-item {
+            border-left: 4px solid #3498db;
+        }
+
+        .card.action-item.overdue {
+            border-left-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .card.action-item.awaiting-client {
+            border-left-color: #f39c12;
+        }
+
+        .card.action-item.done {
+            border-left-color: #27ae60;
+            opacity: 0.7;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 8px;
+        }
+
+        .badge-awaiting-client {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-awaiting-internal {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-overdue {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-done {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .card-source {
+            font-size: 11px;
+            color: #999;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 8px;
+        }
+
+        .card-source a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .card-source a:hover {
+            text-decoration: underline;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+        }
+
+        .card-actions button {
+            padding: 4px 8px;
+            font-size: 11px;
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+        }
+
+        .search-box {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .search-box select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: #ecf0f1;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #bdc3c7;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-live {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-proposal {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-negotiation {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .refresh-status {
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-bottom: 16px;
+        }
+
+        .refresh-status.stale {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .refresh-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            margin-bottom: 16px;
+        }
+
+        .metric-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .metric-card.accounts {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .metric-card.pipeline {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .metric-card.meetings {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .metric-card.actions {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .action-notes {
+            margin-top: 8px;
+        }
+
+        .action-notes textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: monospace;
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        .note-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-controls {
+                width: 100%;
+            }
+
+            .tab-nav {
+                overflow-x: auto;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+
+            .metric-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>📊 Diana's Publicis Account Dashboard</h1>
+                <p>Last updated: <span id="lastUpdated">Just now</span> | Data version: 2026-10-05</p>
+            </div>
+            <div class="header-controls">
+                <button onclick="refreshData()">🔄 Reload Data</button>
+                <button onclick="exportData()">⬇️ Export</button>
+                <button class="danger" onclick="clearLocalData()">🗑️ Clear Local</button>
+            </div>
+        </header>
+
+        <div class="metric-group" id="metrics">
+            <div class="metric-card actions">
+                <div class="metric-value" id="actionCount">0</div>
+                <div class="metric-label">Active Actions</div>
+            </div>
+            <div class="metric-card accounts">
+                <div class="metric-value" id="accountCount">0</div>
+                <div class="metric-label">Publicis Accounts</div>
+            </div>
+            <div class="metric-card pipeline">
+                <div class="metric-value" id="pipelineCount">0</div>
+                <div class="metric-label">Open Opportunities</div>
+            </div>
+            <div class="metric-card meetings">
+                <div class="metric-value" id="meetingCount">0</div>
+                <div class="metric-label">Upcoming Meetings</div>
+            </div>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('actions')">Action Queue</button>
+            <button class="tab-btn" onclick="switchTab('accounts')">Accounts</button>
+            <button class="tab-btn" onclick="switchTab('pipeline')">Pipeline</button>
+            <button class="tab-btn" onclick="switchTab('relationships')">Relationships</button>
+            <button class="tab-btn" onclick="switchTab('meetings')">Meetings</button>
+            <button class="tab-btn" onclick="switchTab('idp')">IDP & Goals</button>
+        </div>
+
+        <!-- Dashboard Overview Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h2>Quick View</h2>
+            <div id="dashboardOverview"></div>
+        </div>
+
+        <!-- Action Queue Tab -->
+        <div id="actions" class="tab-content">
+            <div class="search-box">
+                <input type="text" id="actionSearch" placeholder="Search actions..." onkeyup="filterActions()">
+                <select id="actionFilter" onchange="filterActions()">
+                    <option value="">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="awaiting-client">Awaiting Client</option>
+                    <option value="awaiting-internal">Awaiting Internal</option>
+                    <option value="overdue">Overdue</option>
+                    <option value="done">Done</option>
+                </select>
+            </div>
+            <div class="refresh-status" id="actionsRefresh">Last refreshed: 2026-10-05 from daily-brief-2026-10-05-LIVE.md</div>
+            <div id="actionsList"></div>
+        </div>
+
+        <!-- Accounts Tab -->
+        <div id="accounts" class="tab-content">
+            <div class="search-box">
+                <input type="text" id="accountSearch" placeholder="Search accounts..." onkeyup="filterAccounts()">
+                <select id="priorityFilter" onchange="filterAccounts()">
+                    <option value="">All Priorities</option>
+                    <option value="tier1">Tier 1 - Strategic</option>
+                    <option value="tier2">Tier 2 - Growth</option>
+                    <option value="tier3">Tier 3 - Maintenance</option>
+                </select>
+            </div>
+            <div class="refresh-status" id="accountsRefresh">Last refreshed: 2026-10-05 from reference files</div>
+            <div id="accountsList"></div>
+        </div>
+
+        <!-- Pipeline Tab -->
+        <div id="pipeline" class="tab-content">
+            <div class="search-box">
+                <input type="text" id="pipelineSearch" placeholder="Search opportunities..." onkeyup="filterPipeline()">
+                <select id="stageFilter" onchange="filterPipeline()">
+                    <option value="">All Stages</option>
+                    <option value="proposal">Proposal / RFP</option>
+                    <option value="negotiation">Negotiation</option>
+                    <option value="live">Live / Active</option>
+                </select>
+            </div>
+            <div class="refresh-status" id="pipelineRefresh">Last refreshed: 2026-10-05 from reference files</div>
+            <div id="pipelineList"></div>
+        </div>
+
+        <!-- Relationships & Entertainment Tab -->
+        <div id="relationships" class="tab-content">
+            <div class="search-box">
+                <input type="text" id="relationshipSearch" placeholder="Search by contact/company..." onkeyup="filterRelationships()">
+            </div>
+            <div class="refresh-status" id="relationshipsRefresh">Last refreshed: 2026-10-05 from daily-brief and reference files</div>
+            <div id="relationshipsList"></div>
+        </div>
+
+        <!-- Meetings Tab -->
+        <div id="meetings" class="tab-content">
+            <div class="refresh-status" id="meetingsRefresh">Last refreshed: 2026-10-05 from Google Calendar</div>
+            <div id="meetingsList"></div>
+        </div>
+
+        <!-- IDP & Goals Tab -->
+        <div id="idp" class="tab-content">
+            <div class="refresh-status" id="idpRefresh">Last refreshed: 2026-10-05 from idp-working-plan.md</div>
+            <div id="idpContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'diana-dashboard-state';
+        const DATA_TIMESTAMP = '2026-10-05';
+
+        // Initialize dashboard
+        function init() {
+            try {
+                loadData();
+            } catch(e) {
+                console.log('Storage unavailable, using direct data');
+            }
+            renderAll();
+            updateMetrics();
+        }
+
+        function loadData() {
+            const data = getDashboardData();
+            try {
+                saveToStorage(data);
+            } catch(e) {
+                console.log('Could not save to storage');
+            }
+        }
+
+        function getDashboardData() {
+            return {
+                actions: [
+                    {
+                        id: 'msft-survey',
+                        title: 'Microsoft Survey Sample – Clarify with Angela',
+                        description: 'Natalie Lee (Publicis) requested sample survey + data cuts in parallel with ABCS investigation. Angela coordinating status. Clarify if you should respond directly or let Angela handle.',
+                        type: 'awaiting-internal',
+                        deadline: '2026-10-06',
+                        priority: 'high',
+                        source: 'Gmail | Oct 5, 10:03 AM EDT',
+                        sourceLink: '#',
+                        status: 'active',
+                        notes: '',
+                        campaign: 'Microsoft Windows Holiday'
+                    },
+                    {
+                        id: 'aa-rate-card',
+                        title: 'American Airlines – Await Rate Card Response',
+                        description: 'Sent updated Ogury_AA Rate Card + proposed team outing dates (Oct 21, 27, 28, 29) to Fernando Hernandez (Razorfish) on Oct 1. No response yet (4 days).',
+                        type: 'awaiting-client',
+                        deadline: null,
+                        priority: 'medium',
+                        source: 'Gmail | Oct 1, 3:38 PM EDT',
+                        sourceLink: '#',
+                        status: 'active',
+                        notes: '',
+                        campaign: 'American Airlines Q4'
+                    },
+                    {
+                        id: 'teddy-spec',
+                        title: 'Publicis Winters – Spec Request Delivery',
+                        description: 'Teddy Winters (edward.winters@pub-w.com) needs Ogury specs + visual examples. Scope confirmation email ready. Deadline: EOD 2026-10-06.',
+                        type: 'awaiting-client',
+                        deadline: '2026-10-06',
+                        priority: 'high',
+                        source: 'QUICK_REFERENCE_ACTION_PLAN.md | Oct 5',
+                        sourceLink: '#',
+                        status: 'active',
+                        notes: '',
+                        campaign: 'Publicis Collective'
+                    }
+                ],
+                accounts: [
+                    {
+                        id: 'publicis-collective',
+                        name: 'Publicis Collective US|NY',
+                        agency: 'Publicis',
+                        ownership: 'Diana Fox',
+                        priority: 'tier1',
+                        status: 'active',
+                        pipeline: '~$1.55M (Copilot $500K, Windows $1M, Visible $50K)',
+                        nextAction: 'Follow up on MSFT Windows Holiday BLS survey',
+                        source: 'idp-working-plan.md | Oct 5',
+                        contacts: ['Natalie Lee (Publicis)', 'Peter Collins (Publicis)']
+                    },
+                    {
+                        id: 'microsoft',
+                        name: 'Microsoft',
+                        agency: 'Publicis Collective (entire account)',
+                        ownership: 'Diana Fox',
+                        priority: 'tier1',
+                        status: 'active',
+                        pipeline: 'FY27 Q2 Windows Holiday BLS in setup; multiple campaigns running',
+                        nextAction: 'Coordinate survey sample delivery via Angela',
+                        source: 'CLAUDE.md | Oct 5, 2026',
+                        contacts: ['Natalie Lee (Publicis)', 'Angela Lee (Ogury)']
+                    },
+                    {
+                        id: 'american-airlines',
+                        name: 'American Airlines',
+                        agency: 'Razorfish (Publicis)',
+                        ownership: 'Diana Fox',
+                        priority: 'tier2',
+                        status: 'active',
+                        pipeline: 'Q4 DV360 campaign live as of Oct 5; $700K+ spend; rate card + outing pending',
+                        nextAction: 'Await Fernando\'s response on outing dates',
+                        source: 'daily-brief-2026-10-05-LIVE.md | Oct 5',
+                        contacts: ['Fernando Hernandez (Razorfish)']
+                    },
+                    {
+                        id: 'publicis-collective-spark',
+                        name: 'Spark Foundry US|NY',
+                        agency: 'Publicis Collective',
+                        ownership: 'Diana Fox',
+                        priority: 'tier2',
+                        status: 'prospect',
+                        pipeline: 'IDP target account for relationship expansion',
+                        nextAction: 'Identify decision-makers; build relationship',
+                        source: 'idp-working-plan.md | Oct 5',
+                        contacts: []
+                    },
+                    {
+                        id: 'publicis-collective-zenith',
+                        name: 'Zenith US|NY',
+                        agency: 'Publicis Collective',
+                        ownership: 'Diana Fox',
+                        priority: 'tier2',
+                        status: 'prospect',
+                        pipeline: 'IDP target account for relationship expansion',
+                        nextAction: 'Identify decision-makers; build relationship',
+                        source: 'idp-working-plan.md | Oct 5',
+                        contacts: []
+                    }
+                ],
+                pipeline: [
+                    {
+                        id: 'msft-copilot',
+                        opportunity: 'MSFT Copilot',
+                        client: 'Microsoft',
+                        account: 'Publicis Collective US|NY',
+                        amount: '$499,999.97',
+                        stage: 'proposal',
+                        closeDate: '2026-10-31',
+                        nextStep: 'Deliver BLS survey sample + data cuts',
+                        owner: 'Diana Fox',
+                        source: 'idp-working-plan.md | Oct 5',
+                        sfLink: '#'
+                    },
+                    {
+                        id: 'msft-windows',
+                        opportunity: 'MSFT Windows Consumer',
+                        client: 'Microsoft',
+                        account: 'Publicis Collective US|NY',
+                        amount: '$1,000,000.00',
+                        stage: 'proposal',
+                        closeDate: '2026-11-30',
+                        nextStep: 'Await campaign setup confirmation',
+                        owner: 'Diana Fox',
+                        source: 'idp-working-plan.md | Oct 5',
+                        sfLink: '#'
+                    },
+                    {
+                        id: 'verizon-visible',
+                        opportunity: 'Verizon Visible',
+                        client: 'Verizon',
+                        account: 'Publicis Collective US|NY',
+                        amount: '$50,000.00',
+                        stage: 'negotiation',
+                        closeDate: '2026-09-30',
+                        nextStep: 'Contract negotiation',
+                        owner: 'Diana Fox',
+                        source: 'idp-working-plan.md | Oct 5',
+                        sfLink: '#'
+                    },
+                    {
+                        id: 'american-airlines-live',
+                        opportunity: 'American Airlines Q4 DV360',
+                        client: 'American Airlines',
+                        account: 'American Airlines',
+                        amount: 'Active Spend (~$700K+)',
+                        stage: 'live',
+                        closeDate: '2026-12-31',
+                        nextStep: 'Rate efficiency optimization; team outing scheduling',
+                        owner: 'Diana Fox',
+                        source: 'daily-brief-2026-10-05-LIVE.md | Oct 5',
+                        sfLink: '#'
+                    }
+                ],
+                meetings: [
+                    {
+                        id: 'weekly-ec',
+                        title: 'Weekly EC Seller Meeting',
+                        date: '2026-10-05',
+                        time: '11:00 AM - 11:30 AM',
+                        attendees: ['Jonathan Cooke', 'Chris Irwin', 'Brandon King', 'Others'],
+                        location: 'NY-35-Times Square (10)',
+                        type: 'internal',
+                        agenda: 'Leadership Update, SD Updates, Q&A',
+                        source: 'Google Calendar | Oct 5',
+                        prepAvailable: false
+                    }
+                ],
+                relationships: [
+                    {
+                        id: 'natalie-lee',
+                        name: 'Natalie Lee',
+                        company: 'Publicis',
+                        role: 'Client Lead - Microsoft',
+                        lastEngaged: '2026-10-05',
+                        nextAction: 'Survey sample delivery coordination',
+                        relationship: 'Active',
+                        source: 'Gmail | Oct 5'
+                    },
+                    {
+                        id: 'fernando-hernandez',
+                        name: 'Fernando Hernandez',
+                        company: 'Razorfish (Publicis)',
+                        role: 'American Airlines Client Contact',
+                        lastEngaged: '2026-10-01',
+                        nextAction: 'Awaiting response on outing dates',
+                        relationship: 'Active',
+                        source: 'Gmail | Oct 1'
+                    },
+                    {
+                        id: 'teddy-winters',
+                        name: 'Teddy Winters (Edward Winters)',
+                        company: 'Publicis West',
+                        role: 'Spec Request Lead',
+                        lastEngaged: '2026-10-05',
+                        nextAction: 'Deliver spec sheet + visual examples by EOD Oct 6',
+                        relationship: 'Active Engagement',
+                        source: 'Gmail & QUICK_REFERENCE_ACTION_PLAN.md | Oct 5'
+                    },
+                    {
+                        id: 'chris-irwin',
+                        name: 'Chris Irwin',
+                        company: 'Ogury',
+                        role: 'Manager / Senior Campaign Manager',
+                        lastEngaged: '2026-10-05',
+                        nextAction: 'Weekly EC meeting; IDP reviews',
+                        relationship: 'Manager',
+                        source: 'Google Calendar | Oct 5'
+                    }
+                ],
+                idp: {
+                    level: 'Senior Account Executive',
+                    progressTowardsDirector: '70%',
+                    targetPromotionDate: 'Q1 2027',
+                    priorities: [
+                        {
+                            title: 'Priority 1: Strategic Client Knowledge',
+                            duration: '60 days',
+                            goal: 'Complete profiles for 5 priority accounts',
+                            status: 'In Progress',
+                            evidence: '3 priority accounts identified in working plan'
+                        },
+                        {
+                            title: 'Priority 2: Expand Agency/Client Network',
+                            duration: '90 days',
+                            goal: 'Establish 5 new decision-maker relationships; secure commercial next steps from ≥3',
+                            status: 'In Progress',
+                            evidence: 'Relationships with Natalie Lee, Fernando Hernandez, Teddy Winters active'
+                        },
+                        {
+                            title: 'Priority 3: Qualified Pipeline Discipline',
+                            duration: '30-90 days',
+                            goal: 'Weekly prospecting routine; track pipeline monthly',
+                            status: 'In Progress',
+                            evidence: '~$1.55M+ in active pipeline (Microsoft, American Airlines, Verizon)'
+                        }
+                    ],
+                    source: 'idp-working-plan.md | Oct 5'
+                }
+            };
+        }
+
+        function renderAll() {
+            renderDashboardOverview();
+            renderActions();
+            renderAccounts();
+            renderPipeline();
+            renderRelationships();
+            renderMeetings();
+            renderIDP();
+        }
+
+        function renderDashboardOverview() {
+            const data = getFromStorage() || getDashboardData();
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">';
+
+            // Top actions
+            html += '<div><h3>🚨 Top Actions (This Week)</h3>';
+            const urgentActions = data.actions.filter(a => !a.status.includes('done')).slice(0, 3);
+            if (urgentActions.length === 0) {
+                html += '<p style="color: #999;">No urgent actions.</p>';
+            } else {
+                urgentActions.forEach(action => {
+                    html += `<div class="card action-item"><strong>${action.title}</strong><br><small>${action.deadline ? 'Due: ' + action.deadline : 'No deadline'}</small></div>`;
+                });
+            }
+            html += '</div>';
+
+            // Key accounts
+            html += '<div><h3>📊 Key Accounts</h3>';
+            const keyAccounts = data.accounts.filter(a => a.priority === 'tier1').slice(0, 3);
+            if (keyAccounts.length === 0) {
+                html += '<p style="color: #999;">No tier 1 accounts.</p>';
+            } else {
+                keyAccounts.forEach(account => {
+                    html += `<div class="card"><strong>${account.name}</strong><br><small>${account.agency}</small></div>`;
+                });
+            }
+            html += '</div>';
+
+            // Active pipeline
+            html += '<div><h3>💰 Pipeline Summary</h3>';
+            let totalAmount = 0;
+            data.pipeline.forEach(opp => {
+                const amount = opp.amount.replace(/[^0-9]/g, '');
+                totalAmount += parseInt(amount) || 0;
+            });
+            html += `<div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center;">
+                <div style="font-size: 24px; font-weight: bold;">$${(totalAmount / 1000000).toFixed(1)}M</div>
+                <div style="font-size: 12px; opacity: 0.9;">${data.pipeline.length} opportunities</div>
+            </div>`;
+            html += '</div>';
+
+            html += '</div>';
+            document.getElementById('dashboardOverview').innerHTML = html;
+        }
+
+        function renderActions() {
+            const data = getFromStorage() || getDashboardData();
+            let html = '';
+
+            if (data.actions.length === 0) {
+                html = '<div class="empty-state"><p>No actions found.</p></div>';
+            } else {
+                data.actions.forEach(action => {
+                    const badgeClass = `badge-${action.type}`;
+                    const cardClass = action.status === 'done' ? 'done' : (new Date(action.deadline) < new Date() && action.deadline ? 'overdue' : '');
+                    html += `
+                        <div class="card action-item ${cardClass}" id="action-${action.id}">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">${action.title}</div>
+                                    <div class="card-meta">
+                                        ${action.deadline ? `Due: <strong>${action.deadline}</strong>` : 'No deadline'}
+                                        ${action.priority === 'high' ? ' | 🔴 High Priority' : ''}
+                                    </div>
+                                </div>
+                                <span class="card-badge ${badgeClass}">${action.type.replace(/-/g, ' ').toUpperCase()}</span>
+                            </div>
+                            <p>${action.description}</p>
+                            <div class="action-notes">
+                                <div class="note-label">Local Notes:</div>
+                                <textarea data-action-id="${action.id}" onchange="saveActionNote('${action.id}', this.value)">${action.notes || ''}</textarea>
+                            </div>
+                            <div class="card-actions">
+                                <button onclick="markActionDone('${action.id}')">✓ Done</button>
+                                <button onclick="markActionDeferred('${action.id}')">⏸️ Defer</button>
+                                <button onclick="markActionDismissed('${action.id}')">✕ Dismiss</button>
+                            </div>
+                            <div class="card-source">Source: ${action.source}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('actionsList').innerHTML = html;
+        }
+
+        function renderAccounts() {
+            const data = getFromStorage() || getDashboardData();
+            let html = '<table><thead><tr><th>Account</th><th>Agency</th><th>Priority</th><th>Status</th><th>Pipeline</th><th>Next Action</th></tr></thead><tbody>';
+
+            if (data.accounts.length === 0) {
+                html += '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #999;">No accounts found.</td></tr>';
+            } else {
+                data.accounts.forEach(account => {
+                    const priorityClass = account.priority === 'tier1' ? '🔴' : account.priority === 'tier2' ? '🟡' : '🟢';
+                    html += `
+                        <tr>
+                            <td><strong>${account.name}</strong></td>
+                            <td>${account.agency}</td>
+                            <td>${priorityClass} ${account.priority.replace('tier', 'Tier ')}</td>
+                            <td><span class="status-badge status-${account.status}">${account.status}</span></td>
+                            <td>${account.pipeline}</td>
+                            <td>${account.nextAction}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            html += '</tbody></table>';
+            document.getElementById('accountsList').innerHTML = html;
+        }
+
+        function renderPipeline() {
+            const data = getFromStorage() || getDashboardData();
+            let html = '<table><thead><tr><th>Opportunity</th><th>Client</th><th>Amount</th><th>Stage</th><th>Close Date</th><th>Next Step</th></tr></thead><tbody>';
+
+            if (data.pipeline.length === 0) {
+                html += '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #999;">No opportunities found.</td></tr>';
+            } else {
+                data.pipeline.forEach(opp => {
+                    const stageClass = `status-${opp.stage}`;
+                    html += `
+                        <tr>
+                            <td><strong>${opp.opportunity}</strong></td>
+                            <td>${opp.client}</td>
+                            <td>${opp.amount}</td>
+                            <td><span class="status-badge ${stageClass}">${opp.stage}</span></td>
+                            <td>${opp.closeDate}</td>
+                            <td>${opp.nextStep}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            html += '</tbody></table>';
+            document.getElementById('pipelineList').innerHTML = html;
+        }
+
+        function renderRelationships() {
+            const data = getFromStorage() || getDashboardData();
+            let html = '';
+
+            if (data.relationships.length === 0) {
+                html = '<div class="empty-state"><p>No relationships documented.</p></div>';
+            } else {
+                data.relationships.forEach(rel => {
+                    html += `
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">${rel.name}</div>
+                                    <div class="card-meta">${rel.role} @ ${rel.company}</div>
+                                </div>
+                                <span class="card-badge" style="background: #d1ecf1; color: #0c5460;">${rel.relationship}</span>
+                            </div>
+                            <p><strong>Last Engaged:</strong> ${rel.lastEngaged}</p>
+                            <p><strong>Next Action:</strong> ${rel.nextAction}</p>
+                            <div class="card-source">Source: ${rel.source}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('relationshipsList').innerHTML = html;
+        }
+
+        function renderMeetings() {
+            const data = getFromStorage() || getDashboardData();
+            let html = '';
+
+            if (data.meetings.length === 0) {
+                html = '<div class="empty-state"><p>No upcoming meetings.</p></div>';
+            } else {
+                data.meetings.forEach(meeting => {
+                    html += `
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">${meeting.title}</div>
+                                    <div class="card-meta">${meeting.date} | ${meeting.time}</div>
+                                </div>
+                                <span class="card-badge" style="background: #d4edda; color: #155724;">${meeting.type}</span>
+                            </div>
+                            <p><strong>Location:</strong> ${meeting.location}</p>
+                            <p><strong>Attendees:</strong> ${meeting.attendees.join(', ')}</p>
+                            <p><strong>Agenda:</strong> ${meeting.agenda}</p>
+                            ${meeting.prepAvailable ? '<p>📋 Prep brief available</p>' : ''}
+                            <div class="card-source">Source: ${meeting.source}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('meetingsList').innerHTML = html;
+        }
+
+        function renderIDP() {
+            const data = getFromStorage() || getDashboardData();
+            const idp = data.idp;
+            let html = `
+                <div class="metric-group">
+                    <div class="metric-card">
+                        <div class="metric-value">${idp.progressTowardsDirector}</div>
+                        <div class="metric-label">Progress to Sales Director</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">${idp.targetPromotionDate}</div>
+                        <div class="metric-label">Target Promotion Date</div>
+                    </div>
+                </div>
+
+                <h3>Current Priorities</h3>
+            `;
+
+            idp.priorities.forEach((priority, idx) => {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">${priority.title}</div>
+                                <div class="card-meta">Duration: ${priority.duration}</div>
+                            </div>
+                            <span class="card-badge" style="background: #d4edda; color: #155724;">${priority.status}</span>
+                        </div>
+                        <p><strong>Goal:</strong> ${priority.goal}</p>
+                        <p><strong>Evidence:</strong> ${priority.evidence}</p>
+                    </div>
+                `;
+            });
+
+            html += `<div class="card-source">Source: ${idp.source}</div>`;
+            document.getElementById('idpContent').innerHTML = html;
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function updateMetrics() {
+            const data = getFromStorage() || getDashboardData();
+            document.getElementById('actionCount').textContent = data.actions.filter(a => a.status !== 'done').length;
+            document.getElementById('accountCount').textContent = data.accounts.length;
+            document.getElementById('pipelineCount').textContent = data.pipeline.length;
+            document.getElementById('meetingCount').textContent = data.meetings.length;
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' });
+        }
+
+        function filterActions() {
+            const searchTerm = document.getElementById('actionSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('actionFilter').value;
+
+            document.querySelectorAll('[id^="action-"]').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const status = card.className.includes('done') ? 'done' : card.className.includes('overdue') ? 'overdue' : 'active';
+                const matchesSearch = text.includes(searchTerm);
+                const matchesStatus = !statusFilter || status === statusFilter || (statusFilter === 'active' && !card.className.includes('done'));
+
+                card.style.display = matchesSearch && matchesStatus ? '' : 'none';
+            });
+        }
+
+        function filterAccounts() {
+            const searchTerm = document.getElementById('accountSearch').value.toLowerCase();
+            const priorityFilter = document.getElementById('priorityFilter').value;
+
+            document.querySelectorAll('#accountsList table tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesSearch = text.includes(searchTerm);
+                const matchesFilter = !priorityFilter || text.includes(priorityFilter);
+
+                row.style.display = matchesSearch && matchesFilter ? '' : 'none';
+            });
+        }
+
+        function filterPipeline() {
+            const searchTerm = document.getElementById('pipelineSearch').value.toLowerCase();
+            const stageFilter = document.getElementById('stageFilter').value;
+
+            document.querySelectorAll('#pipelineList table tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesSearch = text.includes(searchTerm);
+                const matchesFilter = !stageFilter || text.includes(stageFilter);
+
+                row.style.display = matchesSearch && matchesFilter ? '' : 'none';
+            });
+        }
+
+        function filterRelationships() {
+            const searchTerm = document.getElementById('relationshipSearch').value.toLowerCase();
+
+            document.querySelectorAll('#relationshipsList .card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function saveActionNote(actionId, noteText) {
+            const data = getFromStorage() || getDashboardData();
+            const action = data.actions.find(a => a.id === actionId);
+            if (action) {
+                action.notes = noteText;
+                saveToStorage(data);
+            }
+        }
+
+        function markActionDone(actionId) {
+            const data = getFromStorage() || getDashboardData();
+            const action = data.actions.find(a => a.id === actionId);
+            if (action) {
+                action.status = 'done';
+                saveToStorage(data);
+                renderActions();
+                updateMetrics();
+            }
+        }
+
+        function markActionDeferred(actionId) {
+            const data = getFromStorage() || getDashboardData();
+            const action = data.actions.find(a => a.id === actionId);
+            if (action) {
+                action.status = 'deferred';
+                saveToStorage(data);
+                renderActions();
+                updateMetrics();
+            }
+        }
+
+        function markActionDismissed(actionId) {
+            const data = getFromStorage() || getDashboardData();
+            const action = data.actions.find(a => a.id === actionId);
+            if (action) {
+                action.status = 'dismissed';
+                saveToStorage(data);
+                renderActions();
+                updateMetrics();
+            }
+        }
+
+        function saveToStorage(data) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch(e) {
+                console.log('Could not save to localStorage');
+            }
+        }
+
+        function getFromStorage() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                return stored ? JSON.parse(stored) : null;
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function refreshData() {
+            alert('Dashboard data refreshed from local source.\n\nNote: To sync with live Salesforce, Google Calendar, or Gmail, use the /refresh-dashboard skill in Claude Code.\n\nCurrent data version: 2026-10-05');
+            loadData();
+            renderAll();
+            updateMetrics();
+        }
+
+        function exportData() {
+            const data = getFromStorage() || getDashboardData();
+            const csv = JSON.stringify(data, null, 2);
+            const blob = new Blob([csv], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `diana-dashboard-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        function clearLocalData() {
+            if (confirm('Clear all local changes and reset to defaults? Your action notes and task status will be lost.')) {
+                try {
+                    localStorage.removeItem(STORAGE_KEY);
+                } catch(e) {
+                    console.log('Could not clear localStorage');
+                }
+                renderAll();
+                updateMetrics();
+                alert('Local data cleared. Dashboard reset to defaults.');
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
